@@ -90,7 +90,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
                     <escapeString>\</escapeString>
-                    <outputDirectory />
+                    <outputDirectory/>
                 </configuration>
             </plugin>
         </plugins>
@@ -180,7 +180,7 @@
         <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
-            <version>2.7.3</version>
+            <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
