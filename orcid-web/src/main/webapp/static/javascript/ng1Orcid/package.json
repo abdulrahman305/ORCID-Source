@@ -59,7 +59,7 @@
     "script-loader": "^0.7.2",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.4.1",
-    "ts-loader": "4.3.1",
+    "ts-loader": "6.0.0",
     "tslint": "5.10.0",
     "typescript": "3.4",
     "ua-parser-js": "^0.7.24",
