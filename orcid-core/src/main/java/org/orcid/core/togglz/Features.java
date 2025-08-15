@@ -7,6 +7,12 @@ import org.togglz.core.context.FeatureContext;
 
 public enum Features implements Feature {
 
+    @Label("OAuth - affiliation interstitial")
+    OAUTH_AFFILIATION_INTERSTITIAL,
+
+    @Label("Login - affiliation interstitial")
+    LOGIN_AFFILIATION_INTERSTITIAL,
+
     @Label("Login - domains interstitial")
     LOGIN_DOMAINS_INTERSTITIAL,
 
@@ -65,7 +71,13 @@ public enum Features implements Feature {
     ENABLE_PAPI_RATE_LIMITING,
 
     @Label("Use the authorization server to sign in")
-    OAUTH_SIGNIN;
+    OAUTH_SIGNIN,
+
+    @Label("Use the authorization server to authorize OAUTH requests")
+    OAUTH_AUTHORIZATION,
+
+    @Label("Enable featured works logic in the UI")
+    FEATURED_WORKS_UI;
     
     public boolean isActive() {
         return FeatureContext.getFeatureManager().isActive(this);

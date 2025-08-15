@@ -1,3 +1,416 @@
+## v2.118.0 - 2025-08-12
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.117.0...v2.118.0)
+
+## v2.117.0 - 2025-08-12
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.116.0...v2.117.0)
+
+## v2.116.0 - 2025-08-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.115.0...v2.116.0)
+
+## v2.115.0 - 2025-08-07
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.114.0...v2.115.0)
+
+## v2.114.0 - 2025-08-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.113.0...v2.114.0)
+
+## v2.113.0 - 2025-08-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.112.0...v2.113.0)
+
+## v2.112.0 - 2025-07-30
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.111.0...v2.112.0)
+
+## v2.111.0 - 2025-07-28
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.110.0...v2.111.0)
+
+## v2.110.0 - 2025-07-28
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.109.0...v2.110.0)
+
+## v2.109.0 - 2025-07-28
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.108.0...v2.109.0)
+
+## v2.108.0 - 2025-07-24
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.107.0...v2.108.0)
+
+## v2.107.0 - 2025-07-23
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.106.0...v2.107.0)
+
+## v2.106.0 - 2025-07-22
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.105.0...v2.106.0)
+
+## v2.105.0 - 2025-07-22
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.104.0...v2.105.0)
+
+## v2.104.0 - 2025-07-21
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.103.0...v2.104.0)
+
+## v2.103.0 - 2025-07-21
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.102.0...v2.103.0)
+
+## v2.102.0 - 2025-07-16
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.101.0...v2.102.0)
+
+- [#7335](https://github.com/ORCID/ORCID-Source/pull/7335): assign featured display indices when creating works
+
+## v2.101.0 - 2025-07-14
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.100.0...v2.101.0)
+
+- [#7334](https://github.com/ORCID/ORCID-Source/pull/7334): assign featured display index when creating works
+
+## v2.100.0 - 2025-07-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.99.0...v2.100.0)
+
+## v2.99.0 - 2025-07-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.98.3...v2.99.0)
+
+- [#7328](https://github.com/ORCID/ORCID-Source/pull/7328): 
+- [#7329](https://github.com/ORCID/ORCID-Source/pull/7329): 
+
+### Fix
+
+- Check if user is admin on removeEmails method
+
+### Feature
+
+- Add remove emails endpoint in AdminController
+
+## v2.98.3 - 2025-07-09
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.98.2...v2.98.3)
+
+## v2.98.2 - 2025-07-08
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.98.1...v2.98.2)
+
+## v2.98.1 - 2025-07-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.98.0...v2.98.1)
+
+## v2.98.0 - 2025-07-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.97.1...v2.98.0)
+
+## v2.97.1 - 2025-07-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.97.0...v2.97.1)
+
+- [#7324](https://github.com/ORCID/ORCID-Source/pull/7324): Togglz to enable oauth authorization
+
+## v2.97.0 - 2025-06-26
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.96.0...v2.97.0)
+
+## v2.96.0 - 2025-06-18
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.95.0...v2.96.0)
+
+### Fix
+
+- include client deactivated status in findMember result (#7321)
+
+## v2.95.0 - 2025-06-17
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.94.0...v2.95.0)
+
+### Feature
+
+- Add deactivated status in findClient API response (#7318)
+
+## v2.94.0 - 2025-06-17
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.93.0...v2.94.0)
+
+## v2.93.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.92.0...v2.93.0)
+
+## v2.92.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.91.0...v2.92.0)
+
+## v2.91.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.90.0...v2.91.0)
+
+## v2.90.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.89.0...v2.90.0)
+
+## v2.89.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.88.0...v2.89.0)
+
+## v2.88.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.87.0...v2.88.0)
+
+## v2.87.0 - 2025-06-11
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.86.0...v2.87.0)
+
+## v2.86.0 - 2025-06-09
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.85.0...v2.86.0)
+
+## v2.85.0 - 2025-06-06
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.84.0...v2.85.0)
+
+- [#7310](https://github.com/ORCID/ORCID-Source/pull/7310): add sast ci
+
+## v2.84.0 - 2025-06-05
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.83.0...v2.84.0)
+
+## v2.83.0 - 2025-06-03
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.82.0...v2.83.0)
+
+## v2.82.0 - 2025-05-29
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.81.0...v2.82.0)
+
+## v2.81.0 - 2025-05-28
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.80.0...v2.81.0)
+
+## v2.80.0 - 2025-05-28
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.6...v2.80.0)
+
+- [#7262](https://github.com/ORCID/ORCID-Source/pull/7262): feat/ui-docker-container-builds Fixed linting errors that angel found, pr not relating to anything outside docker as container builds can fail and build will still complete.
+
+### Fix
+
+- try a separate docker compose file rather than profiles
+- cleaning up old property names and adding new redis props to docker config template
+
+### Feature
+
+- run docker builds with every registry maven build
+
+## v2.79.6 - 2025-05-26
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.5...v2.79.6)
+
+## v2.79.5 - 2025-05-26
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.4...v2.79.5)
+
+## v2.79.4 - 2025-05-26
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.3...v2.79.4)
+
+## v2.79.3 - 2025-05-21
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.2...v2.79.3)
+
+## v2.79.2 - 2025-05-19
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.1...v2.79.2)
+
+## v2.79.1 - 2025-05-19
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.79.0...v2.79.1)
+
+## v2.79.0 - 2025-05-19
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.12...v2.79.0)
+
+## v2.78.12 - 2025-05-15
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.11...v2.78.12)
+
+- [#7294](https://github.com/ORCID/ORCID-Source/pull/7294): tx pull
+
+## v2.78.11 - 2025-05-15
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.10...v2.78.11)
+
+## v2.78.10 - 2025-05-14
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.9...v2.78.10)
+
+## v2.78.9 - 2025-05-14
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.8...v2.78.9)
+
+## v2.78.8 - 2025-05-12
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.7...v2.78.8)
+
+## v2.78.7 - 2025-05-08
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.6...v2.78.7)
+
+## v2.78.6 - 2025-05-08
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.5...v2.78.6)
+
+## v2.78.5 - 2025-05-08
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.4...v2.78.5)
+
+## v2.78.4 - 2025-05-06
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.3...v2.78.4)
+
+## v2.78.3 - 2025-05-06
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.2...v2.78.3)
+
+## v2.78.2 - 2025-05-06
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.1...v2.78.2)
+
+## v2.78.1 - 2025-05-06
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.78.0...v2.78.1)
+
+## v2.78.0 - 2025-05-06
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.77.5...v2.78.0)
+
+## v2.77.5 - 2025-05-05
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.77.4...v2.77.5)
+
+- [#7285](https://github.com/ORCID/ORCID-Source/pull/7285): transifex pull
+
+## v2.77.4 - 2025-04-24
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.77.3...v2.77.4)
+
+## v2.77.3 - 2025-04-21
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.77.2...v2.77.3)
+
+## v2.77.2 - 2025-04-21
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.77.1...v2.77.2)
+
+## v2.77.1 - 2025-04-10
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.77.0...v2.77.1)
+
+- [#7277](https://github.com/ORCID/ORCID-Source/pull/7277): 9694-capture-affiliations-during-sign-in
+
+## v2.77.0 - 2025-04-10
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.14...v2.77.0)
+
+- [#7276](https://github.com/ORCID/ORCID-Source/pull/7276): check for exicting interstitial flag before creating a new one
+
+## v2.76.14 - 2025-04-07
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.13...v2.76.14)
+
+## v2.76.13 - 2025-04-02
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.12...v2.76.13)
+
+- [#7273](https://github.com/ORCID/ORCID-Source/pull/7273): Chage the account settings to trusted parties
+
+## v2.76.12 - 2025-04-02
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.11...v2.76.12)
+
+## v2.76.11 - 2025-04-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.10...v2.76.11)
+
+## v2.76.10 - 2025-04-01
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.9...v2.76.10)
+
+## v2.76.9 - 2025-03-31
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.8...v2.76.9)
+
+## v2.76.8 - 2025-03-31
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.7...v2.76.8)
+
+## v2.76.7 - 2025-03-27
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.6...v2.76.7)
+
+## v2.76.6 - 2025-03-27
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.5...v2.76.6)
+
+## v2.76.5 - 2025-03-27
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.4...v2.76.5)
+
+## v2.76.4 - 2025-03-27
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.3...v2.76.4)
+
+## v2.76.3 - 2025-03-26
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.2...v2.76.3)
+
+## v2.76.2 - 2025-03-26
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.1...v2.76.2)
+
+## v2.76.1 - 2025-03-25
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.76.0...v2.76.1)
+
+- [#7261](https://github.com/ORCID/ORCID-Source/pull/7261): 404-redirects
+
+## v2.76.0 - 2025-03-25
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.75.0...v2.76.0)
+
+## v2.75.0 - 2025-03-25
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.74.0...v2.75.0)
+
+## v2.74.0 - 2025-03-25
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.73.7...v2.74.0)
+
+- [#7149](https://github.com/ORCID/ORCID-Source/pull/7149): feat/ui-docker-container-builds
+
+### Fix
+
+- move haproxy stats ports back onto nonroot range internally
+- match proxying to new docker compose names
+- move to new haproxy stats port below 1024
+
+### Feature
+
+- unique log location for each tomcat
+- add haproxy router for database connections and use static ips and host file records to not require docker dns
+
+## v2.73.7 - 2025-03-25
+
+[Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.73.6...v2.73.7)
+
+- [#7259](https://github.com/ORCID/ORCID-Source/pull/7259): 404-redirects
+
 ## v2.73.6 - 2025-03-20
 
 [Full Changelog](https://github.com/ORCID/ORCID-Source/compare/v2.73.5...v2.73.6)

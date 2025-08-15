@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -27,7 +26,6 @@ import org.orcid.persistence.dao.ProfileDao;
 import org.orcid.persistence.jpa.entities.ClientDetailsEntity;
 import org.orcid.persistence.jpa.entities.ProfileEntity;
 import org.orcid.utils.email.MailGunManager;
-import org.orcid.utils.panoply.PanoplyPapiDailyRateExceededItem;
 import org.orcid.utils.panoply.PanoplyRedshiftClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,8 +89,6 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
     @Value("${org.orcid.papi.rate.limit.enabled:false}")
     private boolean enableRateLimiting;
 
-    @Value("${org.orcid.persistence.panoply.papiExceededRate.production:false}")
-    private boolean enablePanoplyPapiExceededRateInProduction;
 
     // :192.168.65.1 127.0.0.1
     @Value("${org.orcid.papi.rate.limit.ip.whiteSpaceSeparatedWhiteList:192.168.65.1 127.0.0.1}")
@@ -140,6 +136,7 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
         LOG.warn("ApiRateLimitFilter starts, rate limit is : " + enableRateLimiting);
+        boolean filterChainRequired = true;
 
         if (enableRateLimiting && !isReferrerWhiteListed(httpServletRequest.getHeader(HttpHeaders.REFERER))) {
             String tokenValue = null;
@@ -164,7 +161,7 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
                     if (isAnonymous) {
                         if (!isWhiteListed(ipAddress)) {
                             LOG.info("ApiRateLimitFilter anonymous request for ip: " + ipAddress);
-                            this.rateLimitAnonymousRequest(ipAddress, today, httpServletResponse);
+                            filterChainRequired = this.rateLimitAnonymousRequest(ipAddress, today, httpServletResponse);
                         }
 
                     } else {
@@ -179,11 +176,12 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
                 }
             }
         }
-
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        if (filterChainRequired) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        }
     }
 
-    private void rateLimitAnonymousRequest(String ipAddress, LocalDate today, HttpServletResponse httpServletResponse) throws IOException, JSONException {
+    private boolean rateLimitAnonymousRequest(String ipAddress, LocalDate today, HttpServletResponse httpServletResponse) throws IOException, JSONException {
         JSONObject dailyLimitsObj = papiRedisClient.getTodayDailyLimitsForClient(ipAddress);
         long limitValue = 0l;
         if (dailyLimitsObj != null) {
@@ -199,21 +197,16 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
         dailyLimitsObj.put(PapiRateLimitRedisClient.KEY_LAST_MODIFIED, System.currentTimeMillis());
         papiRedisClient.setTodayLimitsForClient(ipAddress, dailyLimitsObj);
         if (Features.ENABLE_PAPI_RATE_LIMITING.isActive() && (limitValue + 1) >= anonymousRequestLimit) {
-            if (enablePanoplyPapiExceededRateInProduction) {
-                PanoplyPapiDailyRateExceededItem item = new PanoplyPapiDailyRateExceededItem();
-                item.setIpAddress(ipAddress);
-                item.setRequestDate(today);
-                setPapiRateExceededItemInPanoply(item);
-            }
             httpServletResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             if (!httpServletResponse.isCommitted()) {
                 try (PrintWriter writer = httpServletResponse.getWriter()) {
                     writer.write(TOO_MANY_REQUESTS_MSG);
                     writer.flush();
                 }
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     private void rateLimitClientRequest(String clientId, LocalDate today) throws JSONException {
@@ -271,14 +264,6 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
         LOG.info("from address={}", FROM_ADDRESS);
         LOG.info("text email={}", body);
         LOG.info("html email={}", html);
-        if (enablePanoplyPapiExceededRateInProduction) {
-            PanoplyPapiDailyRateExceededItem item = new PanoplyPapiDailyRateExceededItem();
-            item.setClientId(clientId);
-            item.setOrcid(memberId);
-            item.setEmail(email);
-            item.setRequestDate(requestDate);
-            setPapiRateExceededItemInPanoply(item);
-        }
 
         String subject = templateParams.containsKey("subject") ? ((String) templateParams.get("subject")) : SUBJECT;
         // Send the email
@@ -288,22 +273,6 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
         }
     }
 
-    private void setPapiRateExceededItemInPanoply(PanoplyPapiDailyRateExceededItem item) {
-        // Store the rate exceeded item in panoply Db without blocking
-        CompletableFuture.supplyAsync(() -> {
-            try {
-                panoplyClient.addPanoplyPapiDailyRateExceeded(item);
-                return true;
-            } catch (Exception e) {
-                LOG.error("Cannot store the rateExceededItem to panoply ", e);
-                return false;
-            }
-        }).thenAccept(result -> {
-            if (!result) {
-                LOG.error("Async call to panoply for : " + item.toString() + " Stored: " + result);
-            }
-        });
-    }
 
     // gets actual client IP address, using the headers that the proxy server
     // adds
@@ -364,10 +333,10 @@ public class ApiRateLimitFilter extends OncePerRequestFilter {
 
         IPAddress ip = ipStr.getAddress();
         IPAddress subnet = cidrStr.getAddress();
-        
+
         if (ip == null || subnet == null) {
             // Invalid IP or CIDR notation
-            LOG.info("IP or cidr null returning false"); 
+            LOG.info("IP or cidr null returning false");
             return false;
         }
         LOG.info("ip Address: " + ipAddress + " cidr: " + cidr + " is in ip range? " + subnet.contains(ip));

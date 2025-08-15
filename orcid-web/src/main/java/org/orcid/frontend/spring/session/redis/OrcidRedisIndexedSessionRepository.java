@@ -68,8 +68,8 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
             "/ng-cli-ws", "/not-found", "/notifications/frequencies/view", "/oauth/custom/authorize/empty.json", "/oauth/custom/authorize/get_request_info_form.json", "/oauth/signin","/orgs/disambiguated/FUNDREF", "/orgs/disambiguated/GRID", "/orgs/disambiguated/LEI", "/orgs/disambiguated/RINGGOLD",
             "/orgs/disambiguated/ROR", "/peer-reviews/peer-review.json", "/peer-reviews/peer-reviews-by-group-id.json", "/peer-reviews/peer-reviews-minimized.json", "/qr-code.png", "/register.json",
             "/research-resources/researchResource.json", "/research-resources/researchResourcePage.json", "/userInfo.json", "/works/getWorkInfo.json", "/works/groupingSuggestions.json", "/works/idTypes.json", "/works/work.json",
-            "/works/worksExtendedPage.json");
-    private final List<String> urisToSkipAlways = List.of("/oauth/custom/register/validatePassword.json");
+            "/works/worksExtendedPage.json", "/404");
+    private final List<String> urisToSkipAlways = List.of("/oauth/custom/register/validatePassword.json", "/404");
     private final Set<String> GET_SKIP_SAVE_SESSION = new HashSet<>(urisToSkipOnGet);
     private final Set<String> ALWAYS_SKIP_SAVE_SESSION = new HashSet<>(urisToSkipAlways);
 
@@ -284,6 +284,7 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
         String sessionId = session.getId();
         Map<String, String> indexes = this.indexResolver.resolveIndexesFor(session);
         String principal = (String)indexes.get(PRINCIPAL_NAME_INDEX_NAME);
+
         if (principal != null) {
             this.sessionRedisOperations.boundSetOps(this.getPrincipalKey(principal)).remove(new Object[]{sessionId});
         }
@@ -396,7 +397,7 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
             this.cached = cached;
             this.isNew = isNew;
             this.originalSessionId = cached.getId();
-            Map<String, String> indexes = OrcidRedisIndexedSessionRepository.this.indexResolver.resolveIndexesFor(this);
+            Map<String, String> indexes = indexResolver.resolveIndexesFor(this);
             this.originalPrincipalName = (String)indexes.get(FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME);
             if (this.isNew) {
                 this.delta.put("creationTime", cached.getCreationTime().toEpochMilli());
@@ -404,12 +405,11 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
                 this.delta.put("lastAccessedTime", cached.getLastAccessedTime().toEpochMilli());
             }
 
-            if (this.isNew || OrcidRedisIndexedSessionRepository.this.saveMode == SaveMode.ALWAYS) {
+            if (this.isNew || saveMode == SaveMode.ALWAYS) {
                 this.getAttributeNames().forEach((attributeName) -> {
                     this.delta.put(OrcidRedisIndexedSessionRepository.getSessionAttrNameKey(attributeName), cached.getAttribute(attributeName));
                 });
             }
-
         }
 
         public void setLastAccessedTime(Instant lastAccessedTime) {
@@ -459,7 +459,7 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
 
         public <T> T getAttribute(String attributeName) {
             T attributeValue = this.cached.getAttribute(attributeName);
-            if (attributeValue != null && OrcidRedisIndexedSessionRepository.this.saveMode.equals(SaveMode.ON_GET_ATTRIBUTE)) {
+            if (attributeValue != null && saveMode.equals(SaveMode.ON_GET_ATTRIBUTE)) {
                 this.delta.put(OrcidRedisIndexedSessionRepository.getSessionAttrNameKey(attributeName), attributeValue);
             }
 
@@ -483,7 +483,7 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
         }
 
         private void flushImmediateIfNecessary() {
-            if (OrcidRedisIndexedSessionRepository.this.flushMode == FlushMode.IMMEDIATE) {
+            if (flushMode == FlushMode.IMMEDIATE) {
                 this.save();
             }
 
@@ -495,28 +495,29 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
         }
 
         private void saveDelta() {
-            if (!this.delta.isEmpty()) {String sessionId = this.getId();
-                OrcidRedisIndexedSessionRepository.this.getSessionBoundHashOperations(sessionId).putAll(this.delta);
+            if (!this.delta.isEmpty()) {
+                String sessionId = this.getId();
+                getSessionBoundHashOperations(sessionId).putAll(this.delta);
                 String principalSessionKey = OrcidRedisIndexedSessionRepository.getSessionAttrNameKey(FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME);
                 String securityPrincipalSessionKey = OrcidRedisIndexedSessionRepository.getSessionAttrNameKey("SPRING_SECURITY_CONTEXT");
                 if (this.delta.containsKey(principalSessionKey) || this.delta.containsKey(securityPrincipalSessionKey)) {
                     if (this.originalPrincipalName != null) {
-                        String originalPrincipalRedisKey = OrcidRedisIndexedSessionRepository.this.getPrincipalKey(this.originalPrincipalName);
-                        OrcidRedisIndexedSessionRepository.this.sessionRedisOperations.boundSetOps(originalPrincipalRedisKey).remove(new Object[]{sessionId});
+                        String originalPrincipalRedisKey = getPrincipalKey(this.originalPrincipalName);
+                        sessionRedisOperations.boundSetOps(originalPrincipalRedisKey).remove(new Object[]{sessionId});
                     }
 
-                    Map<String, String> indexes = OrcidRedisIndexedSessionRepository.this.indexResolver.resolveIndexesFor(this);
+                    Map<String, String> indexes = indexResolver.resolveIndexesFor(this);
                     String principal = (String)indexes.get(FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME);
                     this.originalPrincipalName = principal;
                     if (principal != null) {
-                        String principalRedisKey = OrcidRedisIndexedSessionRepository.this.getPrincipalKey(principal);
-                        OrcidRedisIndexedSessionRepository.this.sessionRedisOperations.boundSetOps(principalRedisKey).add(new Object[]{sessionId});
+                        String principalRedisKey = getPrincipalKey(principal);
+                        sessionRedisOperations.boundSetOps(principalRedisKey).add(new Object[]{sessionId});
                     }
                 }
 
                 this.delta = new HashMap(this.delta.size());
                 Long originalExpiration = this.originalLastAccessTime != null ? this.originalLastAccessTime.plus(this.getMaxInactiveInterval()).toEpochMilli() : null;
-                OrcidRedisIndexedSessionRepository.this.expirationPolicy.onExpirationUpdated(originalExpiration, this);
+                expirationPolicy.onExpirationUpdated(originalExpiration, this);
             }
         }
 
@@ -524,30 +525,30 @@ public class OrcidRedisIndexedSessionRepository implements FindByIndexNameSessio
             String sessionId = this.getId();
             if (!sessionId.equals(this.originalSessionId)) {
                 if (!this.isNew) {
-                    String originalSessionIdKey = OrcidRedisIndexedSessionRepository.this.getSessionKey(this.originalSessionId);
-                    String sessionIdKey = OrcidRedisIndexedSessionRepository.this.getSessionKey(sessionId);
+                    String originalSessionIdKey = getSessionKey(this.originalSessionId);
+                    String sessionIdKey = getSessionKey(sessionId);
 
                     try {
-                        OrcidRedisIndexedSessionRepository.this.sessionRedisOperations.rename(originalSessionIdKey, sessionIdKey);
+                        sessionRedisOperations.rename(originalSessionIdKey, sessionIdKey);
                     } catch (NonTransientDataAccessException var8) {
                         NonTransientDataAccessException exx = var8;
                         this.handleErrNoSuchKeyError(exx);
                     }
 
-                    String originalExpiredKey = OrcidRedisIndexedSessionRepository.this.getExpiredKey(this.originalSessionId);
-                    String expiredKey = OrcidRedisIndexedSessionRepository.this.getExpiredKey(sessionId);
+                    String originalExpiredKey = getExpiredKey(this.originalSessionId);
+                    String expiredKey = getExpiredKey(sessionId);
 
                     try {
-                        OrcidRedisIndexedSessionRepository.this.sessionRedisOperations.rename(originalExpiredKey, expiredKey);
+                        sessionRedisOperations.rename(originalExpiredKey, expiredKey);
                     } catch (NonTransientDataAccessException var7) {
                         NonTransientDataAccessException ex = var7;
                         this.handleErrNoSuchKeyError(ex);
                     }
 
                     if (this.originalPrincipalName != null) {
-                        String originalPrincipalRedisKey = OrcidRedisIndexedSessionRepository.this.getPrincipalKey(this.originalPrincipalName);
-                        OrcidRedisIndexedSessionRepository.this.sessionRedisOperations.boundSetOps(originalPrincipalRedisKey).remove(new Object[]{this.originalSessionId});
-                        OrcidRedisIndexedSessionRepository.this.sessionRedisOperations.boundSetOps(originalPrincipalRedisKey).add(new Object[]{sessionId});
+                        String originalPrincipalRedisKey = getPrincipalKey(this.originalPrincipalName);
+                        sessionRedisOperations.boundSetOps(originalPrincipalRedisKey).remove(this.originalSessionId);
+                        sessionRedisOperations.boundSetOps(originalPrincipalRedisKey).add(sessionId);
                     }
                 }
 

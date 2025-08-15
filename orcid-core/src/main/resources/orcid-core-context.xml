@@ -385,16 +385,12 @@
 	<bean id="contributorUtils" class="org.orcid.core.utils.ContributorUtils">
 		<property name="cacheManager" ref="activityManager" />
 		<property name="profileEntityManager" ref="profileEntityManager" />
-		<property name="recordNameDao" ref="recordNameDaoReadOnly" />
-		<property name="contributorsNameCache" ref="contributorsNameCache" />
 		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspect" />
 	</bean>
 	
 	<bean id="contributorUtilsReadOnly" class="org.orcid.core.utils.ContributorUtils">
 		<property name="cacheManager" ref="activityManager" />
 		<property name="profileEntityManager" ref="profileEntityManager" />
-		<property name="recordNameDao" ref="recordNameDaoReadOnly" />
-		<property name="contributorsNameCache" ref="contributorsNameCache" />
 		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspect" />
 	</bean>
 	
@@ -409,16 +405,12 @@
 	<bean id="contributorUtilsV3" class="org.orcid.core.utils.v3.ContributorUtils">
         <property name="cacheManager" ref="activityManagerV3" />
         <property name="profileEntityManager" ref="profileEntityManagerV3" />
-    	<property name="recordNameDao" ref="recordNameDaoReadOnly" />
-    	<property name="contributorsNameCache" ref="contributorsNameCache" />
 		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspect" />
     </bean>
     
     <bean id="contributorUtilsReadOnlyV3" class="org.orcid.core.utils.v3.ContributorUtils">
         <property name="cacheManager" ref="activityManagerV3" />
         <property name="profileEntityManager" ref="profileEntityManagerV3" />
-        <property name="recordNameDao" ref="recordNameDaoReadOnly" />
-		<property name="contributorsNameCache" ref="contributorsNameCache" />
 		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspect" />
     </bean>
 	
@@ -504,12 +496,22 @@
     </bean>
 
 	<bean id="profileEmailDomainManager" class="org.orcid.core.manager.v3.impl.ProfileEmailDomainManagerImpl">
-		<property name="profileEmailDomainDao" ref="profileEmailDomainDaoReadOnly" />
+		<property name="profileEmailDomainDao" ref="profileEmailDomainDao" />
 		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspectReadOnly" />
 	</bean>
 
 	<bean id="profileEmailDomainManagerReadOnly" class="org.orcid.core.manager.v3.read_only.impl.ProfileEmailDomainManagerReadOnlyImpl">
 		<property name="profileEmailDomainDao" ref="profileEmailDomainDaoReadOnly" />
+		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspectReadOnly" />
+	</bean>
+
+	<bean id="profileInterstitialFlagManager" class="org.orcid.core.manager.v3.impl.ProfileInterstitialFlagManagerImpl">
+		<property name="profileInterstitialFlagDao" ref="profileInterstitialFlagDao" />
+		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspectReadOnly" />
+	</bean>
+
+	<bean id="profileInterstitialFlagManagerReadOnly" class="org.orcid.core.manager.v3.read_only.impl.ProfileInterstitialFlagManagerReadOnlyImpl">
+		<property name="profileInterstitialFlagDao" ref="profileInterstitialFlagDaoReadOnly" />
 		<property name="profileLastModifiedAspect" ref="profileLastModifiedAspectReadOnly" />
 	</bean>
 
@@ -788,14 +790,14 @@
     
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames" value="classpath:i18n/about,classpath:i18n/api,classpath:i18n/email_admin_delegate_request,classpath:i18n/email_added_as_delegate,classpath:i18n/email_auto_deprecate,classpath:i18n/email_new_claim_reminder,classpath:i18n/email_common,classpath:i18n/email_deactivate,classpath:i18n/email_digest,classpath:i18n/email_forgotten_id,classpath:i18n/email_institutional_connection,classpath:i18n/email_locked,classpath:i18n/email_notification,classpath:i18n/email_reactivation,classpath:i18n/email_removed,classpath:i18n/email_reset_password,classpath:i18n/email_reset_password_not_found,classpath:i18n/email_subject,classpath:i18n/email_tips,classpath:i18n/email_verify,classpath:i18n/email_welcome,classpath:i18n/javascript,classpath:i18n/messages,classpath:i18n/admin,classpath:i18n/identifiers,classpath:i18n/notranslate,classpath:i18n/2019-07-emailVisibilitySettings,classpath:i18n/ng_orcid,classpath:i18n/ng_orcid_signin,classpath:i18n/email2faDisabled,classpath:i18n/layout,classpath:i18n/notification_share,classpath:i18n/notification_digest,classpath:i18n/notification_delegate,classpath:i18n/notification_announcement,classpath:i18n/notification_admin_delegate,classpath:i18n/email_add_works_to_record,classpath:i18n/papi_rate_limit_email" />
+		<property name="basenames" value="classpath:i18n/about,classpath:i18n/api,classpath:i18n/email_admin_delegate_request,classpath:i18n/email_added_as_delegate,classpath:i18n/email_auto_deprecate,classpath:i18n/email_new_claim_reminder,classpath:i18n/email_common,classpath:i18n/email_deactivate,classpath:i18n/email_digest,classpath:i18n/email_forgotten_id,classpath:i18n/email_institutional_connection,classpath:i18n/email_locked,classpath:i18n/email_notification,classpath:i18n/email_reactivation,classpath:i18n/email_removed,classpath:i18n/email_reset_password,classpath:i18n/email_reset_password_not_found,classpath:i18n/email_subject,classpath:i18n/email_tips,classpath:i18n/email_verify,classpath:i18n/email_welcome,classpath:i18n/javascript,classpath:i18n/messages,classpath:i18n/admin,classpath:i18n/identifiers,classpath:i18n/notranslate,classpath:i18n/2019-07-emailVisibilitySettings,classpath:i18n/ng_orcid,classpath:i18n/ng_orcid_signin,classpath:i18n/email2faDisabled,classpath:i18n/layout,classpath:i18n/notification_share,classpath:i18n/notification_digest,classpath:i18n/notification_delegate,classpath:i18n/notification_announcement,classpath:i18n/notification_admin_delegate,classpath:i18n/email_add_works_to_record,classpath:i18n/papi_rate_limit_email,classpath:i18n/notification_mvp" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="cacheSeconds" value="${org.orcid.core.messages.cacheSeconds:5}" />
 	</bean>
 	
 	<bean id="messageSourceNoFallback"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames" value="classpath:i18n/about,classpath:i18n/api,classpath:i18n/email_admin_delegate_request,classpath:i18n/email_added_as_delegate,classpath:i18n/email_auto_deprecate,classpath:i18n/email_new_claim_reminder,classpath:i18n/email_common,classpath:i18n/email_deactivate,classpath:i18n/email_digest,classpath:i18n/email_forgotten_id,classpath:i18n/email_institutional_connection,classpath:i18n/email_locked,classpath:i18n/email_notification,classpath:i18n/email_reactivation,classpath:i18n/email_removed,classpath:i18n/email_reset_password,classpath:i18n/email_reset_password_not_found,classpath:i18n/email_subject,classpath:i18n/email_tips,classpath:i18n/email_verify,classpath:i18n/email_welcome,classpath:i18n/javascript,classpath:i18n/messages,classpath:i18n/admin,classpath:i18n/identifiers,classpath:i18n/notranslate,classpath:i18n/2019-07-emailVisibilitySettings,classpath:i18n/ng_orcid,classpath:i18n/ng_orcid_signin,classpath:i18n/email2faDisabled,classpath:i18n/layout,classpath:i18n/notification_share,classpath:i18n/notification_digest,classpath:i18n/notification_delegate,classpath:i18n/notification_announcement,classpath:i18n/notification_admin_delegate,classpath:i18n/email_add_works_to_record,classpath:i18n/papi_rate_limit_email" />
+		<property name="basenames" value="classpath:i18n/about,classpath:i18n/api,classpath:i18n/email_admin_delegate_request,classpath:i18n/email_added_as_delegate,classpath:i18n/email_auto_deprecate,classpath:i18n/email_new_claim_reminder,classpath:i18n/email_common,classpath:i18n/email_deactivate,classpath:i18n/email_digest,classpath:i18n/email_forgotten_id,classpath:i18n/email_institutional_connection,classpath:i18n/email_locked,classpath:i18n/email_notification,classpath:i18n/email_reactivation,classpath:i18n/email_removed,classpath:i18n/email_reset_password,classpath:i18n/email_reset_password_not_found,classpath:i18n/email_subject,classpath:i18n/email_tips,classpath:i18n/email_verify,classpath:i18n/email_welcome,classpath:i18n/javascript,classpath:i18n/messages,classpath:i18n/admin,classpath:i18n/identifiers,classpath:i18n/notranslate,classpath:i18n/2019-07-emailVisibilitySettings,classpath:i18n/ng_orcid,classpath:i18n/ng_orcid_signin,classpath:i18n/email2faDisabled,classpath:i18n/layout,classpath:i18n/notification_share,classpath:i18n/notification_digest,classpath:i18n/notification_delegate,classpath:i18n/notification_announcement,classpath:i18n/notification_admin_delegate,classpath:i18n/email_add_works_to_record,classpath:i18n/papi_rate_limit_email,classpath:i18n/notification_mvp" />
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="cacheSeconds" value="${org.orcid.core.messages.cacheSeconds:5}" />
 		<property name="fallbackToSystemLocale" value="false" />
@@ -1121,7 +1123,15 @@
 	    <property name="retriever" ref="groupedWorksExtendedRetriever" />
 	</bean>
 
+	<bean id="featuredGroupedWorksExtendedGenericCacheManager" class="org.orcid.core.cache.impl.GenericCacheManagerImpl">
+		<property name="cache" ref="featuredGroupedWorksExtendedCache" />
+		<property name="profileEntityManager" ref="profileEntityManagerReadOnlyV3" />
+		<property name="retriever" ref="featuredGroupedWorksExtendedRetriever" />
+	</bean>
+
 	<bean id="groupedWorksExtendedRetriever" class="org.orcid.core.cache.impl.GroupedWorksExtendedRetriever" />
+
+	<bean id="featuredGroupedWorksExtendedRetriever" class="org.orcid.core.cache.impl.FeaturedGroupedWorksExtendedRetriever" />
 
 	<bean id="statusManager" class="org.orcid.core.manager.impl.StatusManagerImpl" />
 	

@@ -105,6 +105,7 @@
 	<sec:http pattern="/.well-known/**" security="none" />
 	<sec:http pattern="/robots.txt" security="none" create-session="stateless" />
 	<sec:http pattern="/tomcatUp.json" security="none" create-session="stateless" />
+	<sec:http pattern="/ping" security="none" create-session="stateless" />
 	<sec:http pattern="/webStatus.json" security="none" create-session="stateless" />
 	<sec:http pattern="/error" security="none" />
 	<sec:http pattern="/favicon.ico" security="none" create-session="stateless" />
@@ -112,7 +113,6 @@
 
 	<!-- Public pages -->
 	<sec:http request-matcher="regex" pattern="/home(\?.*)?" security="none" create-session="stateless" />
-	<sec:http request-matcher="regex" pattern="/lang\.json(.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/messages\.json(\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/config\.json(\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/identifiers/norm/(.*)?" security="none" create-session="stateless" />
@@ -138,7 +138,6 @@
 	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[x](\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[\dX](\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[\dX]/print" security="none" create-session="stateless" />
-	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[\dX]/userInfo.json(\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[\dX]/worksPage.json(\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[\dX]/worksExtendedPage.json(\?.*)?" security="none" create-session="stateless" />
 	<sec:http request-matcher="regex" pattern="/(\d{4}-){3,}\d{3}[\dX]/allWorks.json(\?.*)?" security="none" create-session="stateless" />
@@ -254,7 +253,7 @@
 		<sec:form-login login-processing-url="/shibboleth/signin/auth.json" authentication-details-source-ref="authenticationDetailsSource"
 						login-page="${org.orcid.core.baseUri}/shibboleth/signin" authentication-success-handler-ref="ajaxAuthenticationSuccessHandlerShibboleth"
 						authentication-failure-handler-ref="ajaxAuthenticationFailureHandlerShibboleth"
-						username-parameter="userId" password-parameter="password"
+						username-parameter="username" password-parameter="password"
 						default-target-url="/shibboleth/signin" />
 		<sec:session-management session-fixation-protection="migrateSession"/>
 	</sec:http>
@@ -281,7 +280,7 @@
 		<sec:form-login login-processing-url="/social/signin/auth.json" authentication-details-source-ref="authenticationDetailsSource"
 						login-page="${org.orcid.core.baseUri}/social/access" authentication-success-handler-ref="ajaxAuthenticationSuccessHandlerSocial"
 						authentication-failure-handler-ref="ajaxAuthenticationFailureHandlerSocial"
-						username-parameter="userId" password-parameter="password"
+						username-parameter="username" password-parameter="password"
 						default-target-url="/social/access" />
 		<sec:session-management session-fixation-protection="migrateSession"/>
 	</sec:http>
@@ -299,6 +298,8 @@
 		<sec:intercept-url pattern="/"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<sec:intercept-url pattern="/login(\?.*)?"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<sec:intercept-url pattern="/lang.json(.*)?"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<sec:intercept-url pattern="/signin(\?.*)?"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
@@ -368,10 +369,6 @@
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<sec:intercept-url pattern="/spam/report-spam.json"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<sec:intercept-url pattern="/notifications/frequencies/[^\/\?#:]*(\?.*)?"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<sec:intercept-url pattern="/notifications/frequencies/[^\/\?#:]*/email-frequencies\\.json(\?.*)?"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<sec:intercept-url pattern="/orgs/.*"
 			access="ROLE_USER"/>
 		<sec:intercept-url pattern="/reactivation/.*?"
@@ -410,23 +407,51 @@
 			access="ROLE_USER"/>
 		<sec:intercept-url pattern="/get-my-data"
 			access="ROLE_USER"/>
-		<sec:intercept-url pattern="/verify-email/[a-zA-Z0-9_-]+(\?lang=[a-zA-Z]*)?"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<sec:intercept-url pattern="/account/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/qr-code.png"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/find-my-stuff/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/fundings/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/delegators/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/inbox/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/notifications/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/peer-reviews/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/research-resources/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/works/.*"
+			access="ROLE_USER"/>
+		<sec:intercept-url pattern="/affiliations/.*"
+			access="ROLE_USER"/>
 		<sec:intercept-url pattern="/userInfo.json(\?.*)?"
 			access="ROLE_USER" />
 		<sec:intercept-url pattern="/person.json(\?.*)?"
 			access="ROLE_USER" />
 		<sec:intercept-url pattern="/2FA/authenticationCode.json(\?.*)?"
 			access="ROLE_USER" />
-		<sec:intercept-url pattern="/2FA/submitCode.json(\?.*)?"
+        <sec:intercept-url pattern="/2FA/submitCode.json(\?.*)?"
 			access="ROLE_USER" />
-
-		<sec:intercept-url pattern="/.*" access="ROLE_USER"/>
-
+		<sec:intercept-url pattern="/my-orcid(\?.*)?"
+			access="ROLE_USER" />
+		<sec:intercept-url pattern="/my-orcid/.*?"
+			access="ROLE_USER" />
+		<sec:intercept-url pattern="/verify-email/[a-zA-Z0-9_-]+(\?lang=[a-zA-Z]*)?"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<!-- Allow GET requests (no authentication needed) -->
+		<sec:intercept-url pattern="/.*" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<!-- Require ROLE_USER for all other methods -->
+		<sec:intercept-url pattern="/.*" access="ROLE_USER" />
+		
 		<sec:form-login login-processing-url="/signin/auth.json" authentication-details-source-ref="authenticationDetailsSource"
 						login-page="${org.orcid.core.baseUri}/signin" authentication-success-handler-ref="ajaxAuthenticationSuccessHandler"
 						authentication-failure-handler-ref="ajaxAuthenticationFailureHandler"
-						username-parameter="userId" password-parameter="password" />
+						username-parameter="username" password-parameter="password" />
 		<sec:session-management session-fixation-protection="migrateSession"/>
 	</sec:http>
 
