@@ -25,7 +25,7 @@ the software.
     <description>The parent ORCID pom that all sub-projects reside under</description>
 
     <properties>
-        <spring.version>5.3.20</spring.version>
+        <spring.version>6.2.10</spring.version>
         <security.version>6.3.8</security.version>
         <liquibase.version>4.9.1</liquibase.version>
         <jersey.version>2.27</jersey.version>
@@ -42,7 +42,7 @@ the software.
         <junit.version>4.13.2</junit.version>
         <main.basedir>${project.basedir}</main.basedir>
         <branchVersion>1.1.5-SNAPSHOT</branchVersion>
-        <togglz.version>3.3.3</togglz.version>
+        <togglz.version>4.0.0</togglz.version>
     </properties>
 
     <modules>    
